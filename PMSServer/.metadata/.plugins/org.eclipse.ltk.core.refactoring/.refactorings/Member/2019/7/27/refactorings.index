@@ -1,0 +1,12 @@
+1562073380616	Rename type 'ProjectManagerApplication'
+1562073414558	Rename type 'ProjectManagerApplicationTests'
+1562073464110	Rename compilation unit 'Manager.java'
+1562073539728	Rename package 'in.co.indusnet.projectmanager'
+1562073562255	Rename package 'in.co.indusnet.projectmanager.config'
+1562073581265	Rename package 'in.co.indusnet.projectmanager.controller'
+1562073595913	Rename package 'in.co.indusnet.projectmanager.model'
+1562073612203	Rename package 'in.co.indusnet.projectmanager.response'
+1562073629266	Rename package 'in.co.indusnet.projectmanager.responsehelper'
+1562073792514	Rename package 'in.co.indusnet.projectmanager'
+1562074213561	Move compilation unit
+1562074220877	Delete element

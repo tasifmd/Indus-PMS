@@ -1,0 +1,14 @@
+package in.co.indusnet.projectmanager.responsehelper;
+
+import in.co.indusnet.projectmanager.response.Response;
+
+public class ResponseHelper {
+	
+	public static Response statusInfo(String statusMessage, int statusCode) {
+		Response response = new Response();
+		response.setStatusCode(statusCode);
+		response.setStatusMessage(statusMessage);
+		return response;
+	}
+	
+}
