@@ -16,7 +16,7 @@ public class LoginResponse {
 	private String statusMessage;	
 	private int statusCode;
 	private String token;
-	private String userName;
-	private String email;
-	private String designation;
+	private String employeeName;
+	private String employeeEmail;
+	private String employeeDesignation;
 }

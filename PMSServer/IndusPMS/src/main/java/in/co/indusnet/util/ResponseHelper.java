@@ -11,14 +11,14 @@ public class ResponseHelper {
 		response.setStatusMessage(statusMessage);
 		return response;
 	}
-	public static LoginResponse statusResponseInfo(String statusMessage, int statusCode,String token,String userName,String email,String designation) {
+	public static LoginResponse statusResponseInfo(String statusMessage, int statusCode,String token,String employeeName,String employeeEmail,String employeeDesignation) {
 		LoginResponse loginResponse = new LoginResponse();
 		loginResponse.setStatusMessage(statusMessage);
 		loginResponse.setStatusCode(statusCode);
 		loginResponse.setToken(token);
-		loginResponse.setUserName(userName);
-		loginResponse.setEmail(email);
-		loginResponse.setDesignation(designation);
+		loginResponse.setEmployeeName(employeeName);;
+		loginResponse.setEmployeeEmail(employeeEmail);;
+		loginResponse.setEmployeeDesignation(employeeDesignation);;
 		return loginResponse;
 	} 
 }

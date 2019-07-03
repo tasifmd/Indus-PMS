@@ -18,7 +18,7 @@ public class JWTTokenHelper {
 	@Value("${tokenkey}")
 	private String tokenKey;
 
-	private final long EXPIRATIONTIME = 1000 * 60 * 60 * 5; // 5 hours
+	private final long EXPIRATIONTIME = 1000 * 60 * 60 * 24; 
 
 	@Autowired
 	private Environment environment;
