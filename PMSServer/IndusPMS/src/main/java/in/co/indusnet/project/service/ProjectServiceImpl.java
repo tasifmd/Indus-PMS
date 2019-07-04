@@ -22,7 +22,7 @@ import in.co.indusnet.util.ResponseHelper;
 @Service("projectService")
 @PropertySource("classpath:error.properties")
 @PropertySource("classpath:message.properties")
-public class ProjectServiceImpl implements ProjectService{
+public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -32,70 +32,76 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
-	
+
 	@Autowired
 	private ProjectRepository projectRepository;
-	
+
 	@Override
 	public Response addProject(int employeeId, ProjectDTO projectDTO) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if(!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-			throw new ProjectException(environment.getProperty("unauthorisedAccess"), Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
-		Project project =  modelMapper.map(projectDTO,Project.class);
+		Project project = modelMapper.map(projectDTO, Project.class);
 		project.setCreatedTimeStamp(LocalDate.now());
 		project.setModifiedTimeStamp(LocalDate.now());
 		projectRepository.save(project);
-		response = ResponseHelper.statusInfo(environment.getProperty("projectCreated"), Integer.parseInt(environment.getProperty("successCode")));
+		response = ResponseHelper.statusInfo(environment.getProperty("projectCreated"),
+				Integer.parseInt(environment.getProperty("successCode")));
 		return response;
 	}
 
 	@Override
-	public Response addTask(int employeeId, int projectId, String task) {
+	public Response updateProject(int employeeId, int projectId, ProjectDTO projectDTO) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if(!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-			throw new ProjectException(environment.getProperty("unauthorisedAccess"), Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
 		Optional<Project> project = projectRepository.findById(projectId);
-		if(!project.isPresent()) {
-			throw new ProjectException(environment.getProperty("projectNotExist"), Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		if (!project.isPresent()) {
+			throw new ProjectException(environment.getProperty("projectNotExist"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
-		project.get().getTasks().add(task);
+		project.get().setProjectName(projectDTO.getProjectName());
+		project.get().setProjectDescription(projectDTO.getProjectDescription());
+		project.get().setModifiedTimeStamp(LocalDate.now());
 		projectRepository.save(project.get());
-		response = ResponseHelper.statusInfo(environment.getProperty("taskAdded"), Integer.parseInt(environment.getProperty("successCode")));
+		response = ResponseHelper.statusInfo(environment.getProperty("projectCreated"),
+				Integer.parseInt(environment.getProperty("successCode")));
 		return response;
 	}
 
 	@Override
-	public List<String> getTask(int employeeId, int projectId) {
+	public List<Project> getProject(int employeeId){
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if(!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-			throw new ProjectException(environment.getProperty("unauthorisedAccess"), Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
-		Optional<Project> project = projectRepository.findById(projectId);
-		if(!project.isPresent()) {
-			throw new ProjectException(environment.getProperty("projectNotExist"), Integer.parseInt(environment.getProperty("projectExceptionCode")));
-		}
-		List<String> tasks = project.get().getTasks();
-		return tasks;
+		List<Project> projects = projectRepository.findAll();
+		return projects;
 	}
-
+	
 	@Override
-	public Response removeTask(int employeeId, int projectId , String task) {
+	public Response deleteProject(int employeeId,int projectId) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if(!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-			throw new ProjectException(environment.getProperty("unauthorisedAccess"), Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
 		Optional<Project> project = projectRepository.findById(projectId);
-		if(!project.isPresent()) {
-			throw new ProjectException(environment.getProperty("projectNotExist"), Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		if (!project.isPresent()) {
+			throw new ProjectException(environment.getProperty("projectNotExist"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
-		project.get().getTasks().remove(task);
-		projectRepository.save(project.get());
-		response = ResponseHelper.statusInfo(environment.getProperty("taskRemoved"), Integer.parseInt(environment.getProperty("successCode")));
+		projectRepository.delete(project.get());
+		response = ResponseHelper.statusInfo(environment.getProperty("projectDeleted"),
+				Integer.parseInt(environment.getProperty("successCode")));
 		return response;
 	}
 

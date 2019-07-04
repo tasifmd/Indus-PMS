@@ -19,6 +19,7 @@ import in.co.indusnet.employee.dto.LoginDTO;
 import in.co.indusnet.employee.model.Employee;
 import in.co.indusnet.employee.repository.EmployeeRepository;
 import in.co.indusnet.exception.EmployeeException;
+import in.co.indusnet.exception.ProjectException;
 import in.co.indusnet.response.LoginResponse;
 import in.co.indusnet.response.Response;
 import in.co.indusnet.util.JWTTokenHelper;
@@ -93,6 +94,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Response addMember(int employeeId, EmployeeDTO employeeDTO) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		}
 		if(projectManager.isPresent()) {
 			employeeDTO.setEmployeePassword(passwordEncoder.encode(employeeDTO.getEmployeePassword()));
 			Employee employee = modelMapper.map(employeeDTO, Employee.class);
@@ -111,6 +116,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<Employee> getMembers(int employeeId) {
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		}
 		if(projectManager.isPresent()) {
 			List<Employee> member = employeeRepository.findAll();
 			List<Employee> allMembers = new ArrayList<Employee>();
@@ -128,6 +137,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Response updateMember(int employeeId , int memberId , EmployeeDTO employeeDTO) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		}
 		if(!projectManager.isPresent()) {
 			throw new EmployeeException(environment.getProperty("unauthorisedAccess"), Integer.parseInt(environment.getProperty("employeeExceptionCode")));
 		}
