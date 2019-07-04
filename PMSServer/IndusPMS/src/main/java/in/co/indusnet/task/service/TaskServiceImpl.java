@@ -36,7 +36,7 @@ public class TaskServiceImpl implements TaskService {
 	public Response addTask(int employeeId, int projectId, TaskDTO taskDTO) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")  || !projectManager.get().getEmployeeDesignation().equals("Team Lead") ) {
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")  && !projectManager.get().getEmployeeDesignation().equals("Team Lead") ) {
 			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
 					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
@@ -52,7 +52,7 @@ public class TaskServiceImpl implements TaskService {
 	public Response updateTask(int employeeId, int taskId, TaskDTO taskDTO) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager") || !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager") && !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
 			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
 					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}		
@@ -68,7 +68,7 @@ public class TaskServiceImpl implements TaskService {
 	@Override
 	public List<Task> getTask(int employeeId, int projectId) {
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager") || !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager") && !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
 			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
 					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}	
@@ -80,7 +80,7 @@ public class TaskServiceImpl implements TaskService {
 	public Response deleteTask(int employeeId, int taskId) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager") || !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager") && !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
 			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
 					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}	
@@ -96,14 +96,26 @@ public class TaskServiceImpl implements TaskService {
 	public Response addTaskToMember(int employeeId, int taskId, int memberId) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager") || !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager") && !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
 			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
 					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}	
+		Optional<Employee> employee = employeeRepository.findById(memberId);
 		Optional<Task> task = taskRepository.findById(taskId);
-		Optional<Employee> member = employeeRepository.findById(memberId);
-		member.get().getTask().add(task.get());
+		employee.get().getTask().add(task.get());
+		employeeRepository.save(employee.get());
 		response = ResponseHelper.statusInfo(environment.getProperty("taskAssigned"),
+				Integer.parseInt(environment.getProperty("successCode")));
+		return response;
+	}
+
+	@Override
+	public Response statusTask(int taskId) {
+		Response response = new Response();
+		Optional<Task> task = taskRepository.findById(taskId);
+		task.get().setTaskStatus(true);
+		taskRepository.save(task.get());
+		response = ResponseHelper.statusInfo(environment.getProperty("taskStatus"),
 				Integer.parseInt(environment.getProperty("successCode")));
 		return response;
 	}

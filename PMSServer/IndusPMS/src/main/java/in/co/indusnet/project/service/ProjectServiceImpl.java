@@ -105,4 +105,26 @@ public class ProjectServiceImpl implements ProjectService {
 		return response;
 	}
 
+	@Override
+	public Response addProjectToEmployee(int employeeId, int projectId, int memberId) {
+		Response response = new Response();
+		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		}
+		Optional<Project> project = projectRepository.findById(projectId);
+		if (!project.isPresent()) {
+			throw new ProjectException(environment.getProperty("projectNotExist"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		}
+		
+		Optional<Employee> employee = employeeRepository.findById(memberId);
+		project.get().getEmployee().add(employee.get());
+		projectRepository.save(project.get());
+		response = ResponseHelper.statusInfo(environment.getProperty("projectAssigned"),
+				Integer.parseInt(environment.getProperty("successCode")));
+		return response;
+	}
+
 }

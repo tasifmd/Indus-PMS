@@ -21,4 +21,5 @@ public interface TaskService {
 	
 	public Response addTaskToMember(int employeeId, int taskId,int memberId);
 
+	public Response statusTask(int taskId);
 }

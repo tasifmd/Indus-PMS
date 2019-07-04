@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.co.indusnet.response.Response;
@@ -54,6 +55,19 @@ public class TaskController {
 	public ResponseEntity<Response> deleteTask(HttpServletRequest request,@RequestHeader String token ,@PathVariable int taskId) {
 		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
 		Response responseStatus = taskService.deleteTask(employeeId,taskId);
+		return new ResponseEntity<Response>(responseStatus,HttpStatus.OK);
+	}
+	
+	@PostMapping("/addtasktomember")
+	public ResponseEntity<Response> addTaskToMember(HttpServletRequest request , @RequestHeader String token,@RequestParam int taskId,@RequestParam int memberId) {
+		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
+		Response responseStatus = taskService.addTaskToMember(employeeId, taskId, memberId);
+		return new ResponseEntity<Response>(responseStatus,HttpStatus.OK);
+	}
+	@PutMapping("/status")
+	public ResponseEntity<Response> taskStatus(HttpServletRequest request , @RequestHeader String token,@RequestParam int taskId) {
+		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
+		Response responseStatus = taskService.statusTask(taskId);
 		return new ResponseEntity<Response>(responseStatus,HttpStatus.OK);
 	}
 }

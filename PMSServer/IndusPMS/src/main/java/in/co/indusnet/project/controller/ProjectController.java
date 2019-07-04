@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.co.indusnet.project.dto.ProjectDTO;
@@ -57,24 +58,10 @@ public class ProjectController {
 		return new ResponseEntity<Response>(responseStatus,HttpStatus.OK);
 	}
 	
-//	@PostMapping("/addtask/{projectId}")
-//	public ResponseEntity<Response> addTask(HttpServletRequest request,@RequestHeader String token,@PathVariable int projectId,@RequestParam String task){
-//		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
-//		Response responseStatus = projectService.addTask(employeeId, projectId, task);
-//		return new ResponseEntity<Response>(responseStatus,HttpStatus.OK);
-//	}
-//	
-//	@GetMapping("/gettasks/{projectId}")
-//	public List<String> getTasks(HttpServletRequest request,@RequestHeader String token,@PathVariable int projectId){
-//		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
-//		List<String> task = projectService.getTask(employeeId, projectId);
-//		return task;
-//	}
-//	
-//	@PutMapping("/removetask/{projectId}")
-//	public ResponseEntity<Response> removeTask(HttpServletRequest request,@RequestHeader String token,@PathVariable int projectId,@RequestParam String task) {
-//		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
-//		Response responseStatus = projectService.removeTask(employeeId, projectId, task);
-//		return new ResponseEntity<Response>(responseStatus,HttpStatus.OK);
-//	}
-}
+	@PostMapping("/addprojecttomember")
+	public ResponseEntity<Response> addProjectToMember(HttpServletRequest request,@RequestHeader String token,@RequestParam int projectId,@RequestParam int memberId) {
+		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
+		Response responseStatus = projectService.addProjectToEmployee(employeeId, projectId, memberId);
+		return new ResponseEntity<Response>(responseStatus,HttpStatus.OK);
+	}
+ }

@@ -22,6 +22,8 @@ import in.co.indusnet.exception.EmployeeException;
 import in.co.indusnet.exception.ProjectException;
 import in.co.indusnet.response.LoginResponse;
 import in.co.indusnet.response.Response;
+import in.co.indusnet.task.model.Task;
+import in.co.indusnet.task.repository.TaskRepository;
 import in.co.indusnet.util.JWTTokenHelper;
 import in.co.indusnet.util.ResponseHelper;
 
@@ -46,6 +48,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
+
+	@Autowired
+	private TaskRepository taskRepository;
 
 	@Override
 	public Response addProjectManager(EmployeeDTO employeeDTO) {
@@ -72,21 +77,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public LoginResponse login(LoginDTO loginDTO) {
 		LoginResponse loginResponse = new LoginResponse();
-		Optional<Employee> employeeAvailability = employeeRepository
-				.findByEmployeeEmail(loginDTO.getEmployeeEmail());
-		if(!employeeAvailability.isPresent()) {
-			logger.error("Employee does not exist {}",loginDTO.getEmployeeEmail());
+		Optional<Employee> employeeAvailability = employeeRepository.findByEmployeeEmail(loginDTO.getEmployeeEmail());
+		if (!employeeAvailability.isPresent()) {
+			logger.error("Employee does not exist {}", loginDTO.getEmployeeEmail());
 		}
-		
-		if(passwordEncoder.matches(loginDTO.getEmployeePassword(), employeeAvailability.get().getEmployeePassword())) {
+
+		if (passwordEncoder.matches(loginDTO.getEmployeePassword(), employeeAvailability.get().getEmployeePassword())) {
 			String token = jwtTokenHelper.generateToken(employeeAvailability.get().getEmployeeId());
 			String employeeName = employeeAvailability.get().getEmployeeName();
 			String employeeEmail = employeeAvailability.get().getEmployeeEmail();
 			String employeeDesignation = employeeAvailability.get().getEmployeeDesignation();
-			loginResponse = ResponseHelper.statusResponseInfo(environment.getProperty("loggedIn"), Integer.parseInt(environment.getProperty("successCode")), token, employeeName, employeeEmail, employeeDesignation);
+			loginResponse = ResponseHelper.statusResponseInfo(environment.getProperty("loggedIn"),
+					Integer.parseInt(environment.getProperty("successCode")), token, employeeName, employeeEmail,
+					employeeDesignation);
 			return loginResponse;
 		}
-		loginResponse = ResponseHelper.statusResponseInfo(environment.getProperty("loggedInFailed"), Integer.parseInt(environment.getProperty("failedCode")), null, null, null, null);
+		loginResponse = ResponseHelper.statusResponseInfo(environment.getProperty("loggedInFailed"),
+				Integer.parseInt(environment.getProperty("failedCode")), null, null, null, null);
 		return loginResponse;
 	}
 
@@ -98,7 +105,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
 					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
-		if(projectManager.isPresent()) {
+		if (projectManager.isPresent()) {
 			employeeDTO.setEmployeePassword(passwordEncoder.encode(employeeDTO.getEmployeePassword()));
 			Employee employee = modelMapper.map(employeeDTO, Employee.class);
 			employee.setCreatedTimeStamp(LocalDate.now());
@@ -120,11 +127,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
 					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
-		if(projectManager.isPresent()) {
+		if (projectManager.isPresent()) {
 			List<Employee> member = employeeRepository.findAll();
 			List<Employee> allMembers = new ArrayList<Employee>();
-			for(Employee employee : member) {
-				if(employee.getEmployeeId() != employeeId) {
+			for (Employee employee : member) {
+				if (employee.getEmployeeId() != employeeId) {
 					allMembers.add(employee);
 				}
 			}
@@ -134,15 +141,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Response updateMember(int employeeId , int memberId , EmployeeDTO employeeDTO) {
+	public Response updateMember(int employeeId, int memberId, EmployeeDTO employeeDTO) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
 		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
 			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
 					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
-		if(!projectManager.isPresent()) {
-			throw new EmployeeException(environment.getProperty("unauthorisedAccess"), Integer.parseInt(environment.getProperty("employeeExceptionCode")));
+		if (!projectManager.isPresent()) {
+			throw new EmployeeException(environment.getProperty("unauthorisedAccess"),
+					Integer.parseInt(environment.getProperty("employeeExceptionCode")));
 		}
 		Optional<Employee> member = employeeRepository.findById(memberId);
 		member.get().setEmployeeName(employeeDTO.getEmployeeName());
@@ -156,6 +164,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 		response = ResponseHelper.statusInfo(environment.getProperty("memberUpdated"),
 				Integer.parseInt(environment.getProperty("successCode")));
 		return response;
+	}
+
+	@Override
+	public List<Task> getTaskOfMember(int memberId) {
+		Optional<Employee> employee = employeeRepository.findById(memberId);
+		List<Task> task = employee.get().getTask();
+		return task;
 	}
 
 }

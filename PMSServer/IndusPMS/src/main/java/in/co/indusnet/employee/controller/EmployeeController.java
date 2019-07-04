@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.co.indusnet.employee.dto.EmployeeDTO;
@@ -22,6 +23,7 @@ import in.co.indusnet.employee.model.Employee;
 import in.co.indusnet.employee.service.EmployeeService;
 import in.co.indusnet.response.LoginResponse;
 import in.co.indusnet.response.Response;
+import in.co.indusnet.task.model.Task;
 
 @RestController
 @RequestMapping("/employee")
@@ -61,5 +63,11 @@ public class EmployeeController {
 		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
 		Response responseStatus = employeeService.updateMember(employeeId, memberId, employeeDTO);
 		return new ResponseEntity<Response>(responseStatus,HttpStatus.OK);
+	}
+	
+	@GetMapping("/gettaskofmember")
+	public List<Task> getTaskOfMember(@RequestParam int memberId) {
+		List<Task> task = employeeService.getTaskOfMember(memberId);
+		return task;
 	}
 }
