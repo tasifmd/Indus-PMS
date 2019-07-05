@@ -32,6 +32,7 @@ public class JWTTokenHelper {
 
 	public long decodeToken(String token) {
 		try {
+			System.out.println("Token : " + token);
 			long userId = Long
 					.parseLong(Jwts.parser().setSigningKey(tokenKey).parseClaimsJws(token).getBody().getSubject());
 			return userId;

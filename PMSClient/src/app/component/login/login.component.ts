@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { HttpService } from 'src/app/service/http.service';
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-login',
@@ -8,13 +12,35 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) { }
-
+  loginData : any;
+  'email'= new FormControl('',[Validators.required]);
+  'password'= new FormControl('',[Validators.required]);
+  constructor(private httpService : HttpService,private router: Router,private snackBar: MatSnackBar) { }
+ 
   ngOnInit() {
-    this.loginForm = this.formBuilder.group({
-      'email': new FormControl('',[Validators.required]),
-      'password': new FormControl('',[Validators.required])
-    })
+  }
+
+  login(){
+    this.loginData = {
+      "employeeEmail" : this.email.value,
+      "employeePassword" : this.password.value
+    };
+    this.httpService.postRequest("employee/login",this.loginData).subscribe(
+      (response : any) => {
+        if(response.statusCode == 200 ) {
+          this.router.navigate(['/projectmanagerdashboard']);
+          localStorage.setItem('token',response.token);
+          localStorage.setItem('employeeName',response.employeeName);
+          localStorage.setItem('employeeEmail',response.employeeEmail);
+          localStorage.setItem('employeeDesignation',response.employeeDesignation);
+        }else{
+          this.snackBar.open(response.statusMessage,"Close",{duration:3000});
+        }
+      },
+      error => {
+        this.snackBar.open("Login failed","Close",{duration:3000});
+      }
+    );
   }
 
 }

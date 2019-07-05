@@ -1,0 +1,54 @@
+<mat-toolbar class="toolbar">
+    <mat-toolbar-row>
+        <div fxLayout="row" fxFlex=30 fxLayoutGap=20px>
+            <div>
+                <button mat-icon-button>
+                    <mat-icon aria-label="Toggle sidenav" (click)="drawer.toggle()">menu</mat-icon>
+                </button>
+            </div>
+            <div>
+                <img src="../../../assets/indus net logo.png" class="indusnetlogo">
+            </div>
+            <div>
+                <h4 class="title">Project Management System</h4>
+            </div>
+        </div>
+        <div fxFlex=40>
+
+        </div>
+        <div fxFlex=30 fxLayoutAlign="end center" fxLayoutGap=40px>
+            <div>
+                <button mat-icon-button matTooltip="Setting">
+                    <mat-icon><img src="../../../assets/baseline-settings-20px.svg"></mat-icon>
+                </button>
+            </div>
+
+            <div>
+                <button mat-icon-button matTooltip="Profile">
+                    <mat-icon><img src="../../../assets/baseline-account_circle-24px.svg"></mat-icon>
+                </button>
+            </div>
+
+            <div>
+                <button mat-icon-button matTooltip="Log out" (click)="logOut()">
+                    <mat-icon><img src="../../../assets/baseline-power_settings_new-24px.svg"></mat-icon>
+                </button>
+            </div>
+        </div>
+    </mat-toolbar-row>
+</mat-toolbar>
+<mat-divider></mat-divider>
+<mat-sidenav-container class="example-container">
+    <mat-sidenav #drawer mode="side" opened role="navigation" fxFlex=200px>
+        <mat-nav-list fxLayout="column">
+            <a mat-list-item [routerLink]="['addmember']"> Add Member </a>
+            <mat-divider></mat-divider>
+            <a mat-list-item [routerLink]="'/accounts'"> Add Project </a>
+            <!-- <a mat-list-item (click)="sidenav.toggle()" href="" mat-list-item>Close</a> -->
+
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content class="sidenavcontainer">
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>
