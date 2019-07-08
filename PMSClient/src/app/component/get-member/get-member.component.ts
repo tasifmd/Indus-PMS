@@ -56,6 +56,9 @@ export class GetMemberComponent implements OnInit {
         } else {
           this.snackBar.open(response.statusMessage, "Close", { duration: 3000 });
         }
+      },
+      error => {
+        this.snackBar.open("Member deletion failed", "Close", { duration: 3000 });
       }
     );
   }

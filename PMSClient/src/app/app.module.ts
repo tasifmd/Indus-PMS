@@ -30,6 +30,9 @@ import { ProjectManagerDashboardComponent } from './component/project-manager-da
 import { AddMemberComponent } from './component/add-member/add-member.component';
 import { GetMemberComponent } from './component/get-member/get-member.component';
 import { UpdateMemberDialogBoxComponent } from './component/update-member-dialog-box/update-member-dialog-box.component';
+import { AddProjectComponent } from './component/add-project/add-project.component';
+import { GetProjectComponent } from './component/get-project/get-project.component';
+import { UpdateProjectDialogBoxComponent } from './component/update-project-dialog-box/update-project-dialog-box.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -37,7 +40,10 @@ import { UpdateMemberDialogBoxComponent } from './component/update-member-dialog
     ProjectManagerDashboardComponent,
     AddMemberComponent,
     GetMemberComponent,
-    UpdateMemberDialogBoxComponent
+    UpdateMemberDialogBoxComponent,
+    AddProjectComponent,
+    GetProjectComponent,
+    UpdateProjectDialogBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +75,6 @@ import { UpdateMemberDialogBoxComponent } from './component/update-member-dialog
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [UpdateMemberDialogBoxComponent]
+  entryComponents: [UpdateMemberDialogBoxComponent,UpdateProjectDialogBoxComponent]
 })
 export class AppModule { }

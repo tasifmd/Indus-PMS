@@ -5,6 +5,8 @@ import { ProjectManagerDashboardComponent } from './component/project-manager-da
 import { AuthGuardService } from './service/auth-guard.service';
 import { AddMemberComponent } from './component/add-member/add-member.component';
 import { GetMemberComponent } from './component/get-member/get-member.component';
+import { AddProjectComponent } from './component/add-project/add-project.component';
+import { GetProjectComponent } from './component/get-project/get-project.component';
 
 
 const routes: Routes = [
@@ -24,6 +26,14 @@ const routes: Routes = [
       {
         path: "getmember",
         component: GetMemberComponent
+      },
+      {
+        path: "addproject",
+        component: AddProjectComponent
+      },
+      {
+        path : "getproject",
+        component:GetProjectComponent
       }
     ]
   },

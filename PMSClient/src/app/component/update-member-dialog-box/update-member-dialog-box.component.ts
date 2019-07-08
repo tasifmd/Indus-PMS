@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatSnackBar, MatDialogRef } from '@angular/material';
 import { PmsService } from 'src/app/service/pms.service';
 import { DataService } from 'src/app/service/data.service';
 import { FormControl } from '@angular/forms';
+import { error } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-update-member-dialog-box',
@@ -41,6 +42,11 @@ export class UpdateMemberDialogBoxComponent implements OnInit {
           this.snackBar.open(response.statusMessage, "Close", { duration: 3000 });
         } else {
           this.snackBar.open(response.statusMessage, "Close", { duration: 3000 });
+        }
+      },
+      error => {
+        error => {
+          this.snackBar.open("Member updation failed", "Close", { duration: 3000 });
         }
       }
     );

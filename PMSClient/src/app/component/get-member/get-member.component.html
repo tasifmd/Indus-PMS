@@ -1,13 +1,4 @@
 <div fxLayout="column" fxLayoutGap="20px" class="container">
-    <!-- <div *ngFor="let member of members" fxLayoutGap="20px" class="loop">
-        <mat-card class="matCard">
-            <div>Name : {{member.employeeName}}</div>
-            <div>Email : {{member.employeeEmail}}</div>
-            <div>Designation : {{member.employeeDesignation}}</div>
-            <div>Mobile : {{member.employeeMobile}}</div>
-            <div>Address : {{member.employeeAddress}}</div>
-        </mat-card>
-    </div> -->
     <table mat-table [dataSource]="members" class="mat-elevation-z8">
         <ng-container matColumnDef="Id">
             <th mat-header-cell *matHeaderCellDef> Id. </th>
