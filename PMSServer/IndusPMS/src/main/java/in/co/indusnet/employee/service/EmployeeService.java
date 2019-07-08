@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import in.co.indusnet.employee.dto.EmployeeDTO;
 import in.co.indusnet.employee.dto.LoginDTO;
+import in.co.indusnet.employee.dto.UpdateEmployeeDTO;
 import in.co.indusnet.employee.model.Employee;
 import in.co.indusnet.response.LoginResponse;
 import in.co.indusnet.response.Response;
@@ -22,7 +23,9 @@ public interface EmployeeService {
 	
 	public List<Employee> getMembers(int employeeId);
 	
-	public Response updateMember(int employeeId,int memberId , EmployeeDTO employeeDTO);
+	public Response updateMember(int employeeId,int memberId , UpdateEmployeeDTO employeeDTO);
 	
 	public List<Task> getTaskOfMember(int memberId);
+
+	public Response deleteMember(int employeeId, int memberId);
 }

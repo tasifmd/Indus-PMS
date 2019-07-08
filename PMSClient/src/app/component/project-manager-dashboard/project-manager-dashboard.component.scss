@@ -2,6 +2,7 @@
     display: flex;
 }
 .sidenavcontainer{
+    width: -webkit-fill-available;
     height: -webkit-fill-available;
     margin-left: 180px;
     margin-top: 20px;
@@ -14,5 +15,5 @@
     margin-top: 4%;
 }
 .example-container{
-    position:fixed;
+   // position:fixed;
 }

@@ -4,27 +4,32 @@ import { LoginComponent } from './component/login/login.component';
 import { ProjectManagerDashboardComponent } from './component/project-manager-dashboard/project-manager-dashboard.component';
 import { AuthGuardService } from './service/auth-guard.service';
 import { AddMemberComponent } from './component/add-member/add-member.component';
+import { GetMemberComponent } from './component/get-member/get-member.component';
 
 
 const routes: Routes = [
   {
-    path:"login",
-    component:LoginComponent
+    path: "login",
+    component: LoginComponent
   },
   {
     canActivate: [AuthGuardService],
-    path:"projectmanagerdashboard",
-    component:ProjectManagerDashboardComponent,
+    path: "projectmanagerdashboard",
+    component: ProjectManagerDashboardComponent,
     children: [
       {
-        path:"addmember",
-        component:AddMemberComponent
+        path: "addmember",
+        component: AddMemberComponent
+      },
+      {
+        path: "getmember",
+        component: GetMemberComponent
       }
     ]
   },
   {
-    path:"addmember",
-    component:AddMemberComponent
+    path: "addmember",
+    component: AddMemberComponent
   }
 ];
 

@@ -20,18 +20,24 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatToolbarModule } from '@angular/material';
 import { MatListModule } from '@angular/material';
 import { MatSliderModule } from '@angular/material/slider';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+import {MatDialogModule} from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
 import { ProjectManagerDashboardComponent } from './component/project-manager-dashboard/project-manager-dashboard.component';
 import { AddMemberComponent } from './component/add-member/add-member.component';
+import { GetMemberComponent } from './component/get-member/get-member.component';
+import { UpdateMemberDialogBoxComponent } from './component/update-member-dialog-box/update-member-dialog-box.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ProjectManagerDashboardComponent,
-    AddMemberComponent
+    AddMemberComponent,
+    GetMemberComponent,
+    UpdateMemberDialogBoxComponent
   ],
   imports: [
     BrowserModule,
@@ -56,10 +62,13 @@ import { AddMemberComponent } from './component/add-member/add-member.component'
     MatTooltipModule,
     MatMenuModule,
     MatSelectModule,
+    MatTableModule,
+    MatDialogModule,
     HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  entryComponents: [UpdateMemberDialogBoxComponent]
 })
 export class AppModule { }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { PmsService } from 'src/app/service/pms.service';
+import { DataService } from '../../service/data.service';
 
 @Component({
   selector: 'app-add-member',
@@ -17,7 +18,7 @@ export class AddMemberComponent implements OnInit {
   'employeeDesignation' = new FormControl('',[Validators.required]);
   'employeeAddress' =  new FormControl('',[Validators.required]);
 
-  constructor(private pmsService : PmsService,private snackBar: MatSnackBar) { }
+  constructor(private pmsService : PmsService,private snackBar: MatSnackBar,private dataService : DataService) { }
 
   ngOnInit() {
   }
@@ -29,13 +30,13 @@ export class AddMemberComponent implements OnInit {
       employeeMobile : this.employeeMobile.value,
       employeePassword : this.employeePassword.value,
       employeeDesignation : this.employeeDesignation.value,
-      employeeAddress : this.employeeAddress.valid
+      employeeAddress : this.employeeAddress.value
     }
     console.log(this.memberData);
-    console.log(localStorage.getItem("token"));
     this.pmsService.postRequest("employee/projectmanager/addmember",this.memberData).subscribe(
       (response : any) => {
         if(response.statusCode == 200) {
+          this.dataService.changeMessage(response.statusMessage);
           console.log(response);
           this.snackBar.open(response.statusMessage,"Close",{duration:3000});
         }else{

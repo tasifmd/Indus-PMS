@@ -1,0 +1,60 @@
+<!-- <div class="container">
+        <mat-card class="updatemembercard">
+            <div fxLayout="column" fxLayoutAlign="space-between center">
+                <div>
+                    <mat-card-title class="title">Update Member</mat-card-title>
+                </div>
+                <mat-card-content class="cardcontaint"> -->
+<div fxLayout="column" fxLayoutAlign="space-between center">
+    <div>
+        <mat-form-field appearance="outline" class="input-style">
+            <mat-label>Name</mat-label>
+            <input type="employeeName" matInput placeholder="Please enter the name" [formControl]="employeeName">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="outline" class="input-style">
+            <mat-label>Email</mat-label>
+            <input type="employeeEmail" matInput placeholder="Please enter the emailId" [formControl]="employeeEmail">
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="outline" class="input-style">
+            <mat-label>Mobile Number</mat-label>
+            <input type="employeeMobile" matInput placeholder="Please enter the mobile number"
+                [formControl]="employeeMobile">
+        </mat-form-field>
+    </div>
+    <!-- <div>
+        <mat-form-field appearance="outline" class="input-style">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="Enter the password" [formControl]="employeePassword">
+        </mat-form-field>
+    </div> -->
+    <div>
+        <mat-form-field appearance="outline" class="input-style">
+            <mat-label>Designation</mat-label>
+            <mat-select [formControl]="employeeDesignation" name="designation">
+                <mat-option value="" selected>None</mat-option>
+                <mat-option value="Project Manager">Project Manager</mat-option>
+                <mat-option value="Team Leader">Team Leader</mat-option>
+                <mat-option value="Developer">Developer</mat-option>
+                <mat-option value="Designer">Designer</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="outline" class="input-style">
+            <mat-label>Address</mat-label>
+            <input type="text" matInput placeholder="Enter the Address" [formControl]="employeeAddress">
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap = "40px">
+        <div> <button mat-raised-button color="primary" (click)='updateMember()'> Update Member </button></div>
+        <div> <button mat-raised-button color="primary" (click)='closeDialog()'> Close </button></div>
+    </div>
+</div>
+<!-- </mat-card-content>
+            </div>
+        </mat-card>
+    </div> -->

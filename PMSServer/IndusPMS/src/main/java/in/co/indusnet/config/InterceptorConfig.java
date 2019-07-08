@@ -15,7 +15,7 @@ public class InterceptorConfig implements WebMvcConfigurer {
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(interceptorService).addPathPatterns("/employee/projectmanager/**").addPathPatterns("/project/**").addPathPatterns("/task/**");
+		registry.addInterceptor(interceptorService).addPathPatterns("/project/**").addPathPatterns("/task/**");
 	}
 }
 	

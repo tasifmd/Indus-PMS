@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import in.co.indusnet.employee.dto.EmployeeDTO;
 import in.co.indusnet.employee.dto.LoginDTO;
+import in.co.indusnet.employee.dto.UpdateEmployeeDTO;
 import in.co.indusnet.employee.model.Employee;
 import in.co.indusnet.employee.repository.EmployeeRepository;
 import in.co.indusnet.exception.EmployeeException;
@@ -23,7 +24,6 @@ import in.co.indusnet.exception.ProjectException;
 import in.co.indusnet.response.LoginResponse;
 import in.co.indusnet.response.Response;
 import in.co.indusnet.task.model.Task;
-import in.co.indusnet.task.repository.TaskRepository;
 import in.co.indusnet.util.JWTTokenHelper;
 import in.co.indusnet.util.ResponseHelper;
 
@@ -48,9 +48,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
-
-	@Autowired
-	private TaskRepository taskRepository;
 
 	@Override
 	public Response addProjectManager(EmployeeDTO employeeDTO) {
@@ -141,7 +138,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Response updateMember(int employeeId, int memberId, EmployeeDTO employeeDTO) {
+	public Response updateMember(int employeeId, int memberId, UpdateEmployeeDTO employeeDTO) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
 		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
@@ -158,7 +155,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 		member.get().setEmployeeMobile(employeeDTO.getEmployeeMobile());
 		member.get().setEmployeeDesignation(employeeDTO.getEmployeeDesignation());
 		member.get().setEmployeeAddress(employeeDTO.getEmployeeAddress());
-		member.get().setEmployeePassword(passwordEncoder.encode(employeeDTO.getEmployeePassword()));
 		member.get().setModidifiedTimeStamp(LocalDate.now());
 		employeeRepository.save(member.get());
 		response = ResponseHelper.statusInfo(environment.getProperty("memberUpdated"),
@@ -171,6 +167,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 		Optional<Employee> employee = employeeRepository.findById(memberId);
 		List<Task> task = employee.get().getTask();
 		return task;
+	}
+
+	@Override
+	public Response deleteMember(int employeeId, int memberId) {
+		Response response = new Response();
+		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
+		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+		}
+		Optional<Employee> member = employeeRepository.findById(memberId);
+		employeeRepository.delete(member.get());
+		response = ResponseHelper.statusInfo(environment.getProperty("memberDeleted"),
+				Integer.parseInt(environment.getProperty("successCode")));
+		return response;
 	}
 
 }

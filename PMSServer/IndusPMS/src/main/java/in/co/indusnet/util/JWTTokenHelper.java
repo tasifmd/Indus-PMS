@@ -30,11 +30,11 @@ public class JWTTokenHelper {
 		return token;
 	}
 
-	public long decodeToken(String token) {
+	public int decodeToken(String token) {
 		try {
 			System.out.println("Token : " + token);
-			long userId = Long
-					.parseLong(Jwts.parser().setSigningKey(tokenKey).parseClaimsJws(token).getBody().getSubject());
+			int userId = Integer
+					.parseInt((Jwts.parser().setSigningKey(tokenKey).parseClaimsJws(token).getBody().getSubject()));
 			return userId;
 		} catch (Exception e) {
 			throw new JWTTokenException(environment.getProperty("jwtTokenExceptionMessage"),
