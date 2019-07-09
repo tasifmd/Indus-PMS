@@ -7,6 +7,8 @@ import { AddMemberComponent } from './component/add-member/add-member.component'
 import { GetMemberComponent } from './component/get-member/get-member.component';
 import { AddProjectComponent } from './component/add-project/add-project.component';
 import { GetProjectComponent } from './component/get-project/get-project.component';
+import { GetTaskComponent } from './component/get-task/get-task.component';
+import { TeamLeadDashBoardComponent } from './component/team-lead-dash-board/team-lead-dash-board.component';
 
 
 const routes: Routes = [
@@ -32,14 +34,25 @@ const routes: Routes = [
         component: AddProjectComponent
       },
       {
-        path : "getproject",
-        component:GetProjectComponent
+        path: "getproject",
+        component: GetProjectComponent
+      },
+      {
+        path: "gettask",
+        component: GetTaskComponent
       }
     ]
   },
   {
-    path: "addmember",
-    component: AddMemberComponent
+    canActivate: [AuthGuardService],
+    path:"teamleaddashboard",
+    component:TeamLeadDashBoardComponent,
+    children: [
+      {
+        path: "gettasktl",
+        component: GetTaskComponent
+      }
+    ]
   }
 ];
 

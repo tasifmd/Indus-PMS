@@ -24,7 +24,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTreeModule } from '@angular/material/tree';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientModule } from '@angular/common/http';
 import { ProjectManagerDashboardComponent } from './component/project-manager-dashboard/project-manager-dashboard.component';
 import { AddMemberComponent } from './component/add-member/add-member.component';
@@ -33,6 +36,10 @@ import { UpdateMemberDialogBoxComponent } from './component/update-member-dialog
 import { AddProjectComponent } from './component/add-project/add-project.component';
 import { GetProjectComponent } from './component/get-project/get-project.component';
 import { UpdateProjectDialogBoxComponent } from './component/update-project-dialog-box/update-project-dialog-box.component';
+import { AddTaskComponent } from './component/add-task/add-task.component';
+import { GetTaskComponent } from './component/get-task/get-task.component';
+import { UpdateTaskDialogBoxComponent } from './component/update-task-dialog-box/update-task-dialog-box.component';
+import { TeamLeadDashBoardComponent } from './component/team-lead-dash-board/team-lead-dash-board.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +50,11 @@ import { UpdateProjectDialogBoxComponent } from './component/update-project-dial
     UpdateMemberDialogBoxComponent,
     AddProjectComponent,
     GetProjectComponent,
-    UpdateProjectDialogBoxComponent
+    UpdateProjectDialogBoxComponent,
+    AddTaskComponent,
+    GetTaskComponent,
+    UpdateTaskDialogBoxComponent,
+    TeamLeadDashBoardComponent
   ],
   imports: [
     BrowserModule,
@@ -70,11 +81,14 @@ import { UpdateProjectDialogBoxComponent } from './component/update-project-dial
     MatSelectModule,
     MatTableModule,
     MatDialogModule,
+    MatTreeModule,
+    MatExpansionModule,
+    MatCheckboxModule,
     HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [UpdateMemberDialogBoxComponent,UpdateProjectDialogBoxComponent]
+  entryComponents: [UpdateMemberDialogBoxComponent, UpdateProjectDialogBoxComponent, AddTaskComponent, UpdateTaskDialogBoxComponent]
 })
 export class AppModule { }

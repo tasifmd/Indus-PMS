@@ -12,17 +12,17 @@ import in.co.indusnet.util.JWTTokenHelper;
 
 @Component
 public class InterceptorService implements HandlerInterceptor {
-	
-	@Autowired
-	private JWTTokenHelper jwtTokenHelper;
-	
-	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		String token = request.getHeader("token");
-		long employeeId = jwtTokenHelper.decodeToken(token);
-		request.setAttribute("employeeId", employeeId);
-		return true;
-	}
+//	
+//	@Autowired
+//	private JWTTokenHelper jwtTokenHelper;
+//	
+//	@Override
+//	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+//			throws Exception {
+//		String token = request.getHeader("token");
+//		long employeeId = jwtTokenHelper.decodeToken(token);
+//		request.setAttribute("employeeId", employeeId);
+//		return true;
+//	}
 
 }

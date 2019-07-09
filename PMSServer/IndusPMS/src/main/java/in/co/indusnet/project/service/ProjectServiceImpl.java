@@ -78,10 +78,10 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public List<Project> getProject(int employeeId){
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-		}
+//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+//		}
 		List<Project> projects = projectRepository.findAll();
 		return projects;
 	}

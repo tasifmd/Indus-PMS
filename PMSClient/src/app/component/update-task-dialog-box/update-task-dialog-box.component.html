@@ -2,18 +2,18 @@
     <div>
         <mat-form-field appearance="outline" class="input-style">
             <mat-label>Name</mat-label>
-            <input matInput placeholder="Please enter the project name" [formControl]="projectName">
+            <input matInput placeholder="Please enter the task name" [formControl]="taskName">
         </mat-form-field>
     </div>
     <div>
         <mat-form-field appearance="outline" class="input-style">
             <mat-label>Description</mat-label>
-            <input matInput placeholder="Please enter the project description" [formControl]="projectDescription">
+            <input matInput placeholder="Please enter the task description" [formControl]="taskDescription">
         </mat-form-field>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="40px">
-        <div> <button mat-raised-button color="primary" (click)='updateProject()'> Update Project </button></div>
+        <div> <button mat-raised-button color="primary" (click)='updateTask()'> Update Task </button></div>
         <div> <button mat-raised-button color="primary" (click)='closeDialog()'> Close </button></div>
     </div>
 </div>

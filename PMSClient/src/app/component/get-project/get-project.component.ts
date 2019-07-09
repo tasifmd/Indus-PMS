@@ -4,6 +4,7 @@ import { PmsService } from 'src/app/service/pms.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { UpdateProjectDialogBoxComponent } from '../update-project-dialog-box/update-project-dialog-box.component';
 import { error } from 'util';
+import { AddTaskComponent } from '../add-task/add-task.component';
 
 @Component({
   selector: 'app-get-project',
@@ -13,7 +14,7 @@ import { error } from 'util';
 export class GetProjectComponent implements OnInit {
   projects: any[];
   message;
-  displayedColumns: string[] = ['Id', 'Name', 'Description','Delete'];
+  displayedColumns: string[] = ['Id', 'Name', 'Description','Delete','AddMember'];
   constructor(private pmsService: PmsService, private dataService: DataService,public dialog: MatDialog,private snackBar: MatSnackBar) { }
 
   ngOnInit() {
@@ -60,5 +61,18 @@ export class GetProjectComponent implements OnInit {
         this.snackBar.open("Project deletion failed", "Close", { duration: 3000 });
       }
     );
+  }
+
+  addTaskDialogBox(element) {
+    const dialogRef = this.dialog.open(AddTaskComponent, {
+      width: '400px', height: '300px',
+      data: {
+        project:element
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 }

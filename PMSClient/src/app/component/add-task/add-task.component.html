@@ -1,0 +1,19 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+    <div  fxLayoutAlign="space-between center">
+        <mat-form-field appearance="outline" class="input-style">
+            <mat-label>Task Name</mat-label>
+            <input type="text" matInput placeholder="Please enter the name of task" [formControl]="taskName"
+                required>
+        </mat-form-field>
+    </div>
+    <div fxLayoutAlign="space-between center">
+        <mat-form-field appearance="outline" class="input-style">
+            <mat-label>Task Description</mat-label>
+            <input type="text" matInput placeholder="Please enter the description of task"
+                [formControl]="taskDescription" required>
+        </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div> <button mat-raised-button color="primary" (click)='addTask()'> Add Project </button></div>
+    </div>
+</div>

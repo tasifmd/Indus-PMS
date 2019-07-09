@@ -9,13 +9,13 @@ import in.co.indusnet.config.interceptor.InterceptorService;
 
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
-	
-	@Autowired
-	private InterceptorService interceptorService;
-
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(interceptorService).addPathPatterns("/project/**").addPathPatterns("/task/**");
-	}
+//	
+//	@Autowired
+//	private InterceptorService interceptorService;
+//
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//		registry.addInterceptor(interceptorService);
+//	}
 }
 	

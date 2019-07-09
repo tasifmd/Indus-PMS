@@ -35,8 +35,8 @@ export class UpdateMemberDialogBoxComponent implements OnInit {
       employeeAddress: this.employeeAddress.value
     }
     console.log(this.member);
-    this.pmsService.putRequest("employee/projectmanager/updatemember/" + this.data.member.employeeId,this.member).subscribe(
-      (response : any) => {
+    this.pmsService.putRequest("employee/projectmanager/updatemember/" + this.data.member.employeeId, this.member).subscribe(
+      (response: any) => {
         if (response.statusCode === 200) {
           this.dataService.changeMessage(response.statusMessage);
           this.snackBar.open(response.statusMessage, "Close", { duration: 3000 });
@@ -45,9 +45,7 @@ export class UpdateMemberDialogBoxComponent implements OnInit {
         }
       },
       error => {
-        error => {
-          this.snackBar.open("Member updation failed", "Close", { duration: 3000 });
-        }
+        this.snackBar.open("Member updation failed", "Close", { duration: 3000 });
       }
     );
   }

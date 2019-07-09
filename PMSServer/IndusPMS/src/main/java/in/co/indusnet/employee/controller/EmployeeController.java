@@ -2,8 +2,6 @@ package in.co.indusnet.employee.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +28,7 @@ import in.co.indusnet.task.model.Task;
 import in.co.indusnet.util.JWTTokenHelper;
 
 @RestController
-@CrossOrigin(allowedHeaders = "*" ,origins = "*")
+@CrossOrigin(allowedHeaders = "*", origins = "*")
 @RequestMapping("/employee")
 public class EmployeeController {
 
@@ -39,50 +37,52 @@ public class EmployeeController {
 
 	@Autowired
 	private JWTTokenHelper jwtTokenHelper;
-	
+
 	@PostMapping("/addprojectmanager")
 	public ResponseEntity<Response> addProjectManager(@RequestBody EmployeeDTO employeeDTO) {
 		Response responseStatus = employeeService.addProjectManager(employeeDTO);
 		return new ResponseEntity<Response>(responseStatus, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/login")
 	public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO loginDTO) {
 		LoginResponse responseStatus = employeeService.login(loginDTO);
 		return new ResponseEntity<LoginResponse>(responseStatus, HttpStatus.OK);
 	}
-	
+
 	@PostMapping("/projectmanager/addmember")
-	public ResponseEntity<Response> addMember(HttpServletRequest request,@RequestHeader String token ,@RequestBody EmployeeDTO employeeDTO) {
-		//int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
+	public ResponseEntity<Response> addMember(@RequestHeader String token, @RequestBody EmployeeDTO employeeDTO) {
+		// int employeeId =
+		// Integer.parseInt(request.getAttribute("employeeId").toString());
 		int employeeId = jwtTokenHelper.decodeToken(token);
 		Response responseStatus = employeeService.addMember(employeeId, employeeDTO);
 		return new ResponseEntity<Response>(responseStatus, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/projectmanager/getmember")
-	public List<Employee> getMembers(HttpServletRequest request ,@RequestHeader String token) {
+	public List<Employee> getMembers(@RequestHeader String token) {
 //		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
 		int employeeId = jwtTokenHelper.decodeToken(token);
 		List<Employee> members = employeeService.getMembers(employeeId);
 		return members;
 	}
-	
+
 	@PutMapping("/projectmanager/updatemember/{memberId}")
-	public ResponseEntity<Response> updateMember(HttpServletRequest request , @RequestHeader String token,@PathVariable int memberId  ,@RequestBody UpdateEmployeeDTO employeeDTO) {
+	public ResponseEntity<Response> updateMember(@RequestHeader String token, @PathVariable int memberId,
+			@RequestBody UpdateEmployeeDTO employeeDTO) {
 //		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
 		int employeeId = jwtTokenHelper.decodeToken(token);
 		Response responseStatus = employeeService.updateMember(employeeId, memberId, employeeDTO);
-		return new ResponseEntity<Response>(responseStatus,HttpStatus.OK);
+		return new ResponseEntity<Response>(responseStatus, HttpStatus.OK);
 	}
-	
+
 	@DeleteMapping("/projectmanager/deletemember/{memberId}")
-	public ResponseEntity<Response> deleteMember(@RequestHeader String token,@PathVariable int memberId ) {
+	public ResponseEntity<Response> deleteMember(@RequestHeader String token, @PathVariable int memberId) {
 		int employeeId = jwtTokenHelper.decodeToken(token);
 		Response responseStatus = employeeService.deleteMember(employeeId, memberId);
-		return new ResponseEntity<Response>(responseStatus,HttpStatus.OK);
+		return new ResponseEntity<Response>(responseStatus, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/gettaskofmember")
 	public List<Task> getTaskOfMember(@RequestParam int memberId) {
 		List<Task> task = employeeService.getTaskOfMember(memberId);

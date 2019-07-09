@@ -28,7 +28,12 @@ export class LoginComponent implements OnInit {
     this.httpService.postRequest("employee/login",this.loginData).subscribe(
       (response : any) => {
         if(response.statusCode == 200 ) {
-          this.router.navigate(['/projectmanagerdashboard']);
+          if(response.employeeDesignation === "Project Manager"){
+            this.router.navigate(['/projectmanagerdashboard']);
+          }
+          if(response.employeeDesignation === "Team Lead"){
+            this.router.navigate(['/teamleaddashboard']);
+          }
           localStorage.setItem('token',response.token);
           localStorage.setItem('employeeName',response.employeeName);
           localStorage.setItem('employeeEmail',response.employeeEmail);
