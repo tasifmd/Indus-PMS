@@ -76,9 +76,20 @@ public class TaskController {
 		return new ResponseEntity<Response>(responseStatus, HttpStatus.OK);
 	}
 
+	@GetMapping("/alltaskofmember")
+	public List<Task> getAllTaskOfMember(@RequestParam int memberId) {
+		List<Task> task = taskService.getAllTaskOfEmployee(memberId);
+		return task;
+	}
+	
+	@GetMapping("/taskofmember")
+	public List<Task> getTaskOfMember(@RequestHeader String token) {
+		int employeeId = jwtTokenHelper.decodeToken(token);
+		List<Task> task = taskService.getAllTaskOfEmployee(employeeId);
+		return task;
+	}
 	@PutMapping("/status")
-	public ResponseEntity<Response> taskStatus(@RequestHeader String token, @RequestParam int taskId) {
-//		int employeeId = Integer.parseInt(request.getAttribute("employeeId").toString());
+	public ResponseEntity<Response> taskStatus(@RequestParam int taskId) {
 		Response responseStatus = taskService.statusTask(taskId);
 		return new ResponseEntity<Response>(responseStatus, HttpStatus.OK);
 	}

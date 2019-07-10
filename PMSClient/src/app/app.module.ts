@@ -40,6 +40,10 @@ import { AddTaskComponent } from './component/add-task/add-task.component';
 import { GetTaskComponent } from './component/get-task/get-task.component';
 import { UpdateTaskDialogBoxComponent } from './component/update-task-dialog-box/update-task-dialog-box.component';
 import { TeamLeadDashBoardComponent } from './component/team-lead-dash-board/team-lead-dash-board.component';
+import { GetMemberTlComponent } from './component/get-member-tl/get-member-tl.component';
+import { DDashboardComponent } from './component/ddashboard/ddashboard.component';
+import { DGetTaskComponent } from './component/dget-task/dget-task.component';
+import { ChangePasswordComponent } from './component/change-password/change-password.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +58,11 @@ import { TeamLeadDashBoardComponent } from './component/team-lead-dash-board/tea
     AddTaskComponent,
     GetTaskComponent,
     UpdateTaskDialogBoxComponent,
-    TeamLeadDashBoardComponent
+    TeamLeadDashBoardComponent,
+    GetMemberTlComponent,
+    DDashboardComponent,
+    DGetTaskComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -89,6 +97,6 @@ import { TeamLeadDashBoardComponent } from './component/team-lead-dash-board/tea
   providers: [],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
-  entryComponents: [UpdateMemberDialogBoxComponent, UpdateProjectDialogBoxComponent, AddTaskComponent, UpdateTaskDialogBoxComponent]
+  entryComponents: [UpdateMemberDialogBoxComponent, UpdateProjectDialogBoxComponent, AddTaskComponent, UpdateTaskDialogBoxComponent,ChangePasswordComponent]
 })
 export class AppModule { }

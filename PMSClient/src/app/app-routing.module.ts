@@ -9,6 +9,9 @@ import { AddProjectComponent } from './component/add-project/add-project.compone
 import { GetProjectComponent } from './component/get-project/get-project.component';
 import { GetTaskComponent } from './component/get-task/get-task.component';
 import { TeamLeadDashBoardComponent } from './component/team-lead-dash-board/team-lead-dash-board.component';
+import { GetMemberTlComponent } from './component/get-member-tl/get-member-tl.component';
+import { DDashboardComponent } from './component/ddashboard/ddashboard.component';
+import { DGetTaskComponent } from './component/dget-task/dget-task.component';
 
 
 const routes: Routes = [
@@ -49,8 +52,23 @@ const routes: Routes = [
     component:TeamLeadDashBoardComponent,
     children: [
       {
-        path: "gettasktl",
+        path: "gettask",
         component: GetTaskComponent
+      },
+      {
+        path:"getassignedmember",
+        component:GetMemberTlComponent
+      }
+    ]
+  },
+  {
+    canActivate: [AuthGuardService],
+    path:"ddsahboard",
+    component:DDashboardComponent,
+    children: [
+      {
+        path:"dgettask",
+        component:DGetTaskComponent
       }
     ]
   }

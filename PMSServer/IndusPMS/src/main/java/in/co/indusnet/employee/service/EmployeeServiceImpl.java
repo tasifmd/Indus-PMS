@@ -16,11 +16,11 @@ import org.springframework.stereotype.Service;
 
 import in.co.indusnet.employee.dto.EmployeeDTO;
 import in.co.indusnet.employee.dto.LoginDTO;
+import in.co.indusnet.employee.dto.PasswordDTO;
 import in.co.indusnet.employee.dto.UpdateEmployeeDTO;
 import in.co.indusnet.employee.model.Employee;
 import in.co.indusnet.employee.repository.EmployeeRepository;
 import in.co.indusnet.exception.EmployeeException;
-import in.co.indusnet.exception.ProjectException;
 import in.co.indusnet.response.LoginResponse;
 import in.co.indusnet.response.Response;
 import in.co.indusnet.task.model.Task;
@@ -98,10 +98,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Response addMember(int employeeId, EmployeeDTO employeeDTO) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-		}
+//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+//		}
 		if (projectManager.isPresent()) {
 			employeeDTO.setEmployeePassword(passwordEncoder.encode(employeeDTO.getEmployeePassword()));
 			Employee employee = modelMapper.map(employeeDTO, Employee.class);
@@ -120,10 +120,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<Employee> getMembers(int employeeId) {
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-		}
+//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+//		}
 		if (projectManager.isPresent()) {
 			List<Employee> member = employeeRepository.findAll();
 			List<Employee> allMembers = new ArrayList<Employee>();
@@ -140,15 +140,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Response updateMember(int employeeId, int memberId, UpdateEmployeeDTO employeeDTO) {
 		Response response = new Response();
-		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-		}
-		if (!projectManager.isPresent()) {
-			throw new EmployeeException(environment.getProperty("unauthorisedAccess"),
-					Integer.parseInt(environment.getProperty("employeeExceptionCode")));
-		}
+//		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
+//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+//		}
+//		if (!projectManager.isPresent()) {
+//			throw new EmployeeException(environment.getProperty("unauthorisedAccess"),
+//					Integer.parseInt(environment.getProperty("employeeExceptionCode")));
+//		}
 		Optional<Employee> member = employeeRepository.findById(memberId);
 		member.get().setEmployeeName(employeeDTO.getEmployeeName());
 		member.get().setEmployeeEmail(employeeDTO.getEmployeeEmail());
@@ -172,16 +172,42 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Response deleteMember(int employeeId, int memberId) {
 		Response response = new Response();
-		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-		}
+//		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
+//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
+//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+//		}
 		Optional<Employee> member = employeeRepository.findById(memberId);
 		employeeRepository.delete(member.get());
 		response = ResponseHelper.statusInfo(environment.getProperty("memberDeleted"),
 				Integer.parseInt(environment.getProperty("successCode")));
 		return response;
+	}
+
+	@Override
+	public List<Employee> getAllAssignedMembers() {
+		List<Employee> allMembers = employeeRepository.findAll();
+		List<Employee> assignedmembers = new ArrayList<>();
+		for(Employee employee : allMembers) {
+			if(!employee.getTask().isEmpty()) {
+				assignedmembers.add(employee);
+			}
+		}
+		return assignedmembers;
+	}
+
+	@Override
+	public Response changePassword(int employeeId,PasswordDTO passwordDTO) {
+		Response response = new Response();
+		Optional<Employee> employee = employeeRepository.findById(employeeId);
+		if(passwordDTO.getNewPassword().equals(passwordDTO.getConfirmPassword())) {
+			employee.get().setEmployeePassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
+			employeeRepository.save(employee.get());
+			response = ResponseHelper.statusInfo(environment.getProperty("passwordChanged"),
+					Integer.parseInt(environment.getProperty("successCode")));
+			return response;
+		}
+		return null;
 	}
 
 }

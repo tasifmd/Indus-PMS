@@ -126,11 +126,26 @@ public class TaskServiceImpl implements TaskService {
 	public Response statusTask(int taskId) {
 		Response response = new Response();
 		Optional<Task> task = taskRepository.findById(taskId);
-		task.get().setTaskStatus(true);
-		taskRepository.save(task.get());
-		response = ResponseHelper.statusInfo(environment.getProperty("taskStatus"),
-				Integer.parseInt(environment.getProperty("successCode")));
-		return response;
+		if(task.get().isTaskStatus() == false) {
+			task.get().setTaskStatus(true);
+			taskRepository.save(task.get());
+			response = ResponseHelper.statusInfo(environment.getProperty("taskStatus"),
+					Integer.parseInt(environment.getProperty("successCode")));
+			return response;
+		}else {
+			task.get().setTaskStatus(false);
+			taskRepository.save(task.get());
+			response = ResponseHelper.statusInfo(environment.getProperty("taskStatus"),
+					Integer.parseInt(environment.getProperty("successCode")));
+			return response;
+		}
+	}
+
+	@Override
+	public List<Task> getAllTaskOfEmployee(int employeeId) {
+		Optional<Employee> employee = employeeRepository.findById(employeeId);
+		List<Task> task = employee.get().getTask();
+		return task;
 	}
 
 }

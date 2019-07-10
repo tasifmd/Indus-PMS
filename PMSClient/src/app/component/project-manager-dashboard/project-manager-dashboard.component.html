@@ -18,9 +18,13 @@
         </div>
         <div fxFlex=30 fxLayoutAlign="end center" fxLayoutGap=40px>
             <div>
-                <button mat-icon-button matTooltip="Setting">
+                <button mat-icon-button matTooltip="Setting" [matMenuTriggerFor]="appMenu">
                     <mat-icon><img src="../../../assets/baseline-settings-20px.svg"></mat-icon>
                 </button>
+
+                <mat-menu #appMenu="matMenu">
+                    <button mat-button (click) = 'changePassword()'>Change Password</button>
+                </mat-menu>
             </div>
 
             <div>

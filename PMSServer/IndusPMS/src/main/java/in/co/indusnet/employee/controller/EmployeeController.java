@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.co.indusnet.employee.dto.EmployeeDTO;
 import in.co.indusnet.employee.dto.LoginDTO;
+import in.co.indusnet.employee.dto.PasswordDTO;
 import in.co.indusnet.employee.dto.UpdateEmployeeDTO;
 import in.co.indusnet.employee.model.Employee;
 import in.co.indusnet.employee.service.EmployeeService;
@@ -50,6 +51,13 @@ public class EmployeeController {
 		return new ResponseEntity<LoginResponse>(responseStatus, HttpStatus.OK);
 	}
 
+	@PutMapping("/changepassword")
+	public ResponseEntity<Response> changePassword(@RequestHeader String token,@RequestBody PasswordDTO passwordDTO) {
+		int employeeId = jwtTokenHelper.decodeToken(token);
+		Response responseStatus = employeeService.changePassword(employeeId, passwordDTO);
+		return new ResponseEntity<Response>(responseStatus, HttpStatus.OK);
+	}
+	
 	@PostMapping("/projectmanager/addmember")
 	public ResponseEntity<Response> addMember(@RequestHeader String token, @RequestBody EmployeeDTO employeeDTO) {
 		// int employeeId =
@@ -87,5 +95,11 @@ public class EmployeeController {
 	public List<Task> getTaskOfMember(@RequestParam int memberId) {
 		List<Task> task = employeeService.getTaskOfMember(memberId);
 		return task;
+	}
+	
+	@GetMapping("/getassignedmembers")
+	public List<Employee> getAssignedMember(){
+		List<Employee> employee = employeeService.getAllAssignedMembers();
+		return employee;
 	}
 }

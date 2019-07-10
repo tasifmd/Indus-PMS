@@ -43,6 +43,7 @@ export class GetTaskComponent implements OnInit {
         this.members = response;
       }
     );
+    console.log(this.members)
   }
 
   getTask(itemsProject) {

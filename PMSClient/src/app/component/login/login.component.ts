@@ -34,6 +34,12 @@ export class LoginComponent implements OnInit {
           if(response.employeeDesignation === "Team Lead"){
             this.router.navigate(['/teamleaddashboard']);
           }
+          if(response.employeeDesignation === "Developer"){
+            this.router.navigate(['/ddsahboard']);
+          }
+          if(response.employeeDesignation === "Designer"){
+            this.router.navigate(['/ddsahboard']);
+          }
           localStorage.setItem('token',response.token);
           localStorage.setItem('employeeName',response.employeeName);
           localStorage.setItem('employeeEmail',response.employeeEmail);

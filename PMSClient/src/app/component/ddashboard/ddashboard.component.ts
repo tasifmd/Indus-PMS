@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material';
-import { PmsService } from 'src/app/service/pms.service';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
 
 @Component({
-  selector: 'app-project-manager-dashboard',
-  templateUrl: './project-manager-dashboard.component.html',
-  styleUrls: ['./project-manager-dashboard.component.scss']
+  selector: 'app-ddashboard',
+  templateUrl: './ddashboard.component.html',
+  styleUrls: ['./ddashboard.component.scss']
 })
-export class ProjectManagerDashboardComponent implements OnInit {
+export class DDashboardComponent implements OnInit {
 
-  constructor(private router: Router,private pmsService : PmsService,public dialog: MatDialog) { }
+  constructor(private router: Router,public dialog: MatDialog) { }
 
-  ngOnInit() {}
-  
+  ngOnInit() {
+  }
   logOut(){
     localStorage.removeItem("token");
     localStorage.removeItem("employeeName");
@@ -22,7 +21,6 @@ export class ProjectManagerDashboardComponent implements OnInit {
     localStorage.removeItem("employeeDesignation");
     this.router.navigate(['/login']);
   }
-
   changePassword() {
     const dialogRef = this.dialog.open(ChangePasswordComponent, {
       width: '450px', height: '300px'

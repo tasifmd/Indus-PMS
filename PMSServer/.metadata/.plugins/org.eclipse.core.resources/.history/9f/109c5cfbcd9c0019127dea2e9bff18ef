@@ -1,5 +1,0 @@
-package in.co.indusnet.member.util;
-
-public class JWTTokenHelper {
-
-}
