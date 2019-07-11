@@ -13,7 +13,7 @@ export class DGetTaskComponent implements OnInit {
   token = localStorage.getItem('token');
   message;
   task : any[];
-  displayedColumns: string[] = ['Id', 'Name', 'Description', 'Status','Change Status'];
+  displayedColumns: string[] = ['Id', 'Name', 'Description', 'Status','Project Name','Change Status'];
   constructor(private pmsService: PmsService,private httpService :HttpService, private dataService: DataService, public dialog: MatDialog, private snackBar: MatSnackBar) { }
 
   ngOnInit() {

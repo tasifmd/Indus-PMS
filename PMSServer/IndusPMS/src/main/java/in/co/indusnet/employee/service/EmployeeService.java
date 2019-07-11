@@ -2,7 +2,9 @@ package in.co.indusnet.employee.service;
 
 import java.util.List;
 
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import in.co.indusnet.employee.dto.EmployeeDTO;
 import in.co.indusnet.employee.dto.LoginDTO;
@@ -33,4 +35,8 @@ public interface EmployeeService {
 	public Response deleteMember(int employeeId, int memberId);
 	
 	public List<Employee> getAllAssignedMembers();
+	
+	public Response uploadImage(int employeeId, MultipartFile file);
+	
+	public Resource getUploadedImage(int employeeId);
 }

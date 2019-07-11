@@ -10,14 +10,14 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class PmsService {
-  token : any;
+  token: any;
   baseurl = environment.baseurl;
   constructor(private http: HttpClient) { }
 
   public postRequest(url: any, data: any): any {
     this.token = localStorage.getItem('token');
     return this.http.post(this.baseurl + url, data, {
-      headers: new HttpHeaders().set("token",this.token),
+      headers: new HttpHeaders().set("token", this.token),
     });
   }
 
@@ -35,6 +35,14 @@ export class PmsService {
 
   public deleteRequest(url: any): any {
     return this.http.delete(this.baseurl + url, {
+      headers: new HttpHeaders().set('token', localStorage.getItem('token'))
+    });
+  }
+
+  public uploadImage(url: any, file: File) {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    return this.http.post(this.baseurl + url, formData, {
       headers: new HttpHeaders().set('token', localStorage.getItem('token'))
     });
   }

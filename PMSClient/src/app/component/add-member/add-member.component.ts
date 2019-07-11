@@ -12,9 +12,9 @@ import { DataService } from '../../service/data.service';
 export class AddMemberComponent implements OnInit {
   memberData : any;
   'employeeName'= new FormControl('',[Validators.required]);
-  'employeeEmail' = new FormControl('',[Validators.required]);
-  'employeeMobile' = new FormControl('',[Validators.required]);
-  'employeePassword' = new FormControl('',[Validators.required]);
+  'employeeEmail' = new FormControl('',[Validators.required,Validators.email]);
+  'employeeMobile' = new FormControl('',[Validators.required,Validators.minLength(10),Validators.maxLength(10)]);
+  'employeePassword' = new FormControl('',[Validators.required,Validators.minLength(5)]);
   'employeeDesignation' = new FormControl('',[Validators.required]);
   'employeeAddress' =  new FormControl('',[Validators.required]);
 

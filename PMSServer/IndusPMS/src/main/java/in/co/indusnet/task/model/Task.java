@@ -22,5 +22,6 @@ public class Task {
 	private String taskName;
 	private String taskDescription;
 	private int projectId;
+	private String projectName;
 	private boolean taskStatus;
 }

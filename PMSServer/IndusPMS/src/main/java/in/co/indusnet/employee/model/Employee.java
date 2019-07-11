@@ -33,6 +33,7 @@ public class Employee {
 	private String employeeAddress;
 	private LocalDate createdTimeStamp;
 	private LocalDate modidifiedTimeStamp;
+	private String profilePic;
 	@ManyToMany(cascade = CascadeType.ALL)
 	private List<Task> task;
  

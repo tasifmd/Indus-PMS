@@ -13,6 +13,8 @@ import in.co.indusnet.employee.model.Employee;
 import in.co.indusnet.employee.repository.EmployeeRepository;
 import in.co.indusnet.exception.EmployeeException;
 import in.co.indusnet.exception.ProjectException;
+import in.co.indusnet.project.model.Project;
+import in.co.indusnet.project.repository.ProjectRepository;
 import in.co.indusnet.response.Response;
 import in.co.indusnet.task.dto.TaskDTO;
 import in.co.indusnet.task.model.Task;
@@ -35,7 +37,10 @@ public class TaskServiceImpl implements TaskService {
 
 	@Autowired
 	private TaskRepository taskRepository;
-
+	
+	@Autowired
+	private ProjectRepository projectRepository;
+	
 	@Override
 	public Response addTask(int employeeId, int projectId, TaskDTO taskDTO) {
 		Response response = new Response();
@@ -45,8 +50,11 @@ public class TaskServiceImpl implements TaskService {
 			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
 					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
+		
+		Optional<Project> project = projectRepository.findById(projectId);
 		Task task = modelMapper.map(taskDTO, Task.class);
 		task.setProjectId(projectId);
+		task.setProjectName(project.get().getProjectName());
 		taskRepository.save(task);
 		response = ResponseHelper.statusInfo(environment.getProperty("taskAdded"),
 				Integer.parseInt(environment.getProperty("successCode")));

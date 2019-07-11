@@ -1,9 +1,16 @@
 package in.co.indusnet.employee.service;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -11,8 +18,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import in.co.indusnet.employee.dto.EmployeeDTO;
 import in.co.indusnet.employee.dto.LoginDTO;
@@ -48,6 +58,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
+
+	private final Path fileLocation = Paths.get("D:\\Tasif Workspace\\Indus PMS\\profilepic");
 
 	@Override
 	public Response addProjectManager(EmployeeDTO employeeDTO) {
@@ -188,8 +200,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public List<Employee> getAllAssignedMembers() {
 		List<Employee> allMembers = employeeRepository.findAll();
 		List<Employee> assignedmembers = new ArrayList<>();
-		for(Employee employee : allMembers) {
-			if(!employee.getTask().isEmpty()) {
+		for (Employee employee : allMembers) {
+			if (!employee.getTask().isEmpty()) {
 				assignedmembers.add(employee);
 			}
 		}
@@ -197,16 +209,50 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public Response changePassword(int employeeId,PasswordDTO passwordDTO) {
+	public Response changePassword(int employeeId, PasswordDTO passwordDTO) {
 		Response response = new Response();
 		Optional<Employee> employee = employeeRepository.findById(employeeId);
-		if(passwordDTO.getNewPassword().equals(passwordDTO.getConfirmPassword())) {
+		if (passwordDTO.getNewPassword().equals(passwordDTO.getConfirmPassword())) {
 			employee.get().setEmployeePassword(passwordEncoder.encode(passwordDTO.getNewPassword()));
 			employeeRepository.save(employee.get());
 			response = ResponseHelper.statusInfo(environment.getProperty("passwordChanged"),
 					Integer.parseInt(environment.getProperty("successCode")));
 			return response;
 		}
+		return null;
+	}
+
+	@Override
+	public Response uploadImage(int employeeId, MultipartFile file) {
+		Response response = new Response();
+		Optional<Employee> employee = employeeRepository.findById(employeeId);
+		UUID uuid = UUID.randomUUID();
+		String uniqueId = uuid.toString();
+		try {
+			Files.copy(file.getInputStream(), fileLocation.resolve(uniqueId), StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			System.out.println("Inavlid file");
+		}
+		employee.get().setProfilePic(uniqueId);
+		employeeRepository.save(employee.get());
+		response = ResponseHelper.statusInfo(environment.getProperty("picUploded"),
+				Integer.parseInt(environment.getProperty("successCode")));
+		return response;
+	}
+
+	@Override
+	public Resource getUploadedImage(int employeeId) {
+		Optional<Employee> employee = employeeRepository.findById(employeeId);
+		Path imagePath = fileLocation.resolve(employee.get().getProfilePic());
+		try {
+			Resource resource = new UrlResource(imagePath.toUri());
+			if (resource.exists() || resource.isReadable()) {
+				return resource;
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+
 		return null;
 	}
 

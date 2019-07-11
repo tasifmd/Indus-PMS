@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { PmsService } from 'src/app/service/pms.service';
 import { ChangePasswordComponent } from '../change-password/change-password.component';
+import { ProfileDialogBoxComponent } from '../profile-dialog-box/profile-dialog-box.component';
 
 @Component({
   selector: 'app-project-manager-dashboard',
@@ -10,12 +11,12 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
   styleUrls: ['./project-manager-dashboard.component.scss']
 })
 export class ProjectManagerDashboardComponent implements OnInit {
+  token = localStorage.getItem("token");
+  constructor(private router: Router, private pmsService: PmsService, public dialog: MatDialog ,private snackBar: MatSnackBar) { }
 
-  constructor(private router: Router,private pmsService : PmsService,public dialog: MatDialog) { }
+  ngOnInit() { }
 
-  ngOnInit() {}
-  
-  logOut(){
+  logOut() {
     localStorage.removeItem("token");
     localStorage.removeItem("employeeName");
     localStorage.removeItem("employeeEmail");
@@ -30,6 +31,30 @@ export class ProjectManagerDashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
+    });
+  }
+
+  profileDialog() {
+    const dialogRef = this.dialog.open(ProfileDialogBoxComponent, {
+      width: '70%', height: '85%',
+
+    });
+
+    dialogRef.afterClosed().subscribe(image => {
+      console.log('image' + image.file);
+      if (image != null) {
+        this.pmsService.uploadImage("employee/uploadprofilepic", image.file).subscribe(
+          (response: any) => {
+            if (response.statusCode === 200) {
+              this.snackBar.open(response.statusMessage, "close", { duration: 3000 });
+            } else {
+              this.snackBar.open(response.statusMessage, "close", { duration: 3000 });
+            }
+          },error=>{
+            this.snackBar.open("Picture not uploded", "close", { duration: 3000 });
+          }
+        );
+      }
     });
   }
 }

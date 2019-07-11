@@ -23,13 +23,15 @@
                 </button>
 
                 <mat-menu #appMenu="matMenu">
-                    <button mat-button (click) = 'changePassword()'>Change Password</button>
+                    <button mat-button (click)='changePassword()'>Change Password</button>
                 </mat-menu>
             </div>
 
             <div>
-                <button mat-icon-button matTooltip="Profile">
-                    <mat-icon><img src="../../../assets/baseline-account_circle-24px.svg"></mat-icon>
+                <button mat-icon-button matTooltip="Profile" (click)='profileDialog()'>
+                    <mat-icon><img mat-card-avatar src="http://localhost:8081/employee/getuploadedimage/{{token}}"
+                            class="profilepic">
+                    </mat-icon>
                 </button>
             </div>
 
