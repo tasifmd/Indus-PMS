@@ -81,12 +81,12 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public List<Task> getTask(int employeeId, int projectId) {
-		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")
-				&& !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
-			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-		}
+//		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
+//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")
+//				&& !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
+//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
+//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
+//		}
 		List<Task> task = taskRepository.findAllTaskByProjectId(projectId);
 		return task;
 	}

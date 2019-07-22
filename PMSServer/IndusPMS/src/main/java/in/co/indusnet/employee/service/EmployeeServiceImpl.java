@@ -110,10 +110,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Response addMember(int employeeId, EmployeeDTO employeeDTO) {
 		Response response = new Response();
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-//		}
 		if (projectManager.isPresent()) {
 			employeeDTO.setEmployeePassword(passwordEncoder.encode(employeeDTO.getEmployeePassword()));
 			Employee employee = modelMapper.map(employeeDTO, Employee.class);
@@ -132,10 +128,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public List<Employee> getMembers(int employeeId) {
 		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-//		}
 		if (projectManager.isPresent()) {
 			List<Employee> member = employeeRepository.findAll();
 			List<Employee> allMembers = new ArrayList<Employee>();
@@ -152,15 +144,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Response updateMember(int employeeId, int memberId, UpdateEmployeeDTO employeeDTO) {
 		Response response = new Response();
-//		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-//		}
-//		if (!projectManager.isPresent()) {
-//			throw new EmployeeException(environment.getProperty("unauthorisedAccess"),
-//					Integer.parseInt(environment.getProperty("employeeExceptionCode")));
-//		}
 		Optional<Employee> member = employeeRepository.findById(memberId);
 		member.get().setEmployeeName(employeeDTO.getEmployeeName());
 		member.get().setEmployeeEmail(employeeDTO.getEmployeeEmail());
@@ -184,11 +167,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Response deleteMember(int employeeId, int memberId) {
 		Response response = new Response();
-//		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")) {
-//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-//		}
 		Optional<Employee> member = employeeRepository.findById(memberId);
 		employeeRepository.delete(member.get());
 		response = ResponseHelper.statusInfo(environment.getProperty("memberDeleted"),

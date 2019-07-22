@@ -28,8 +28,10 @@
             </div>
 
             <div>
-                <button mat-icon-button matTooltip="Profile">
-                    <mat-icon><img src="../../../assets/baseline-account_circle-24px.svg"></mat-icon>
+                <button mat-icon-button matTooltip="Profile" (click)='profileDialog()'>
+                    <mat-icon><img mat-card-avatar src="http://localhost:8081/employee/getuploadedimage/{{token}}"
+                            class="profilepic">
+                    </mat-icon>
                 </button>
             </div>
 
@@ -45,6 +47,8 @@
 <mat-sidenav-container class="example-container">
     <mat-sidenav #drawer mode="side" opened role="navigation" fxFlex=200px>
         <mat-nav-list fxLayout="column">
+            <a mat-list-item [routerLink]="['getproject']"> Get Project </a>
+            <mat-divider></mat-divider>
             <a mat-list-item [routerLink]="['gettask']"> Get Task </a>
             <mat-divider></mat-divider>
             <a mat-list-item [routerLink]="['getassignedmember']"> Get Member </a>

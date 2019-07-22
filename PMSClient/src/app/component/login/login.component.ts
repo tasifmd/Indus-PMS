@@ -28,10 +28,11 @@ export class LoginComponent implements OnInit {
     this.httpService.postRequest("employee/login",this.loginData).subscribe(
       (response : any) => {
         if(response.statusCode == 200 ) {
+          console.log("Login successfull");
           if(response.employeeDesignation === "Project Manager"){
             this.router.navigate(['/projectmanagerdashboard']);
           }
-          if(response.employeeDesignation === "Team Lead"){
+          if(response.employeeDesignation == "Team Leader"){
             this.router.navigate(['/teamleaddashboard']);
           }
           if(response.employeeDesignation === "Developer"){

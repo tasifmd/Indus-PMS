@@ -11,14 +11,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import in.co.indusnet.employee.model.Employee;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 @Entity
 @Table
-@Getter
-@Setter
-@ToString
+@Data
 public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

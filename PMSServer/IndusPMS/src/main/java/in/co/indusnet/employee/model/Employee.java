@@ -14,15 +14,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import in.co.indusnet.task.model.Task;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 @Entity
 @Table
-@Getter
-@Setter
-@ToString
+@Data
 public class Employee {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

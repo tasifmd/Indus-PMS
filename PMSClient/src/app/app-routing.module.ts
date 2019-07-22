@@ -52,6 +52,10 @@ const routes: Routes = [
     component:TeamLeadDashBoardComponent,
     children: [
       {
+        path: "getproject",
+        component: GetProjectComponent
+      },
+      {
         path: "gettask",
         component: GetTaskComponent
       },
