@@ -37,10 +37,10 @@ public class TaskServiceImpl implements TaskService {
 
 	@Autowired
 	private TaskRepository taskRepository;
-	
+
 	@Autowired
 	private ProjectRepository projectRepository;
-	
+
 	@Override
 	public Response addTask(int employeeId, int projectId, TaskDTO taskDTO) {
 		Response response = new Response();
@@ -50,7 +50,7 @@ public class TaskServiceImpl implements TaskService {
 			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
 					Integer.parseInt(environment.getProperty("projectExceptionCode")));
 		}
-		
+
 		Optional<Project> project = projectRepository.findById(projectId);
 		Task task = modelMapper.map(taskDTO, Task.class);
 		task.setProjectId(projectId);
@@ -81,12 +81,6 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public List<Task> getTask(int employeeId, int projectId) {
-//		Optional<Employee> projectManager = employeeRepository.findById(employeeId);
-//		if (!projectManager.get().getEmployeeDesignation().equals("Project Manager")
-//				&& !projectManager.get().getEmployeeDesignation().equals("Team Lead")) {
-//			throw new ProjectException(environment.getProperty("unauthorisedAccess"),
-//					Integer.parseInt(environment.getProperty("projectExceptionCode")));
-//		}
 		List<Task> task = taskRepository.findAllTaskByProjectId(projectId);
 		return task;
 	}
@@ -134,13 +128,13 @@ public class TaskServiceImpl implements TaskService {
 	public Response statusTask(int taskId) {
 		Response response = new Response();
 		Optional<Task> task = taskRepository.findById(taskId);
-		if(task.get().isTaskStatus() == false) {
+		if (task.get().isTaskStatus() == false) {
 			task.get().setTaskStatus(true);
 			taskRepository.save(task.get());
 			response = ResponseHelper.statusInfo(environment.getProperty("taskStatus"),
 					Integer.parseInt(environment.getProperty("successCode")));
 			return response;
-		}else {
+		} else {
 			task.get().setTaskStatus(false);
 			taskRepository.save(task.get());
 			response = ResponseHelper.statusInfo(environment.getProperty("taskStatus"),
